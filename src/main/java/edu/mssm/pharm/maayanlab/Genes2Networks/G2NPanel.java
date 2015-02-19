@@ -403,7 +403,7 @@ public class G2NPanel extends JPanel {
 		this.add(advancedSettingsBox);
 	}
 	
-	public void setSettings(Genes2Networks g2n2) {
+	public void setSettings(SettingsChanger g2n2) {
 		if (maxNodeLinks.isEnabled()) 
 			g2n2.setSetting(Genes2Networks.MAXIMUM_NUMBER_OF_EDGES, maxNodeLinks.getText());
 		if (minArticles.isEnabled())
