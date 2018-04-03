@@ -8,9 +8,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.mssm.pharm.maayanlab.Genes2Networks</groupId>
 	<artifactId>G2N</artifactId>
-	<version>1.7</version>
+	<version>1.8</version>
 	<packaging>jar</packaging>
 	<name>G2N</name>
+	<url>http://maven.apache.org</url>
 	<dependencies>
 		<!-- JUNIT DEPENDENCY FOR TESTING -->
 		<dependency>
@@ -38,9 +39,9 @@
 		</dependency>
 		<!-- jgraphx -->
 		<dependency>
-			<groupId>org.tinyjee.jgraphx</groupId>
-			<artifactId>jgraphx</artifactId>
-			<version>2.3.0.5</version>
+		    <groupId>org.tinyjee.jgraphx</groupId>
+		    <artifactId>jgraphx</artifactId>
+		    <version>1.10.1.3</version>
 		</dependency>
 	</dependencies>
 	<build>

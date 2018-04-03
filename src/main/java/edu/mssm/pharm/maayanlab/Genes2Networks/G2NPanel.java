@@ -59,8 +59,11 @@ public class G2NPanel extends JPanel {
 	private JTextField maxNodeLinks, maxInteractions, minArticles;
 
 	// Checkboxes for the different databases
-	private JCheckBox bindCheckBox, biocartaCheckBox, biogridCheckBox; 
+	private JCheckBox bindCheckBox, biocartaCheckBox, biogridCheckBox;
+	private JCheckBox bioplexCheckBox;
 	private JCheckBox dipCheckBox, figeysCheckBox, hprdCheckBox;
+	private JCheckBox humapCheckBox;
+	private JCheckBox irefCheckBox;
 	private JCheckBox innatedbCheckBox, intactCheckBox, keggCheckBox;
 	private JCheckBox mintCheckBox, mipsCheckBox, murphyCheckBox;
 	private JCheckBox pdzbaseCheckBox, ppidCheckBox, keaCheckBox;
@@ -76,7 +79,6 @@ public class G2NPanel extends JPanel {
 		if(args.length == 0) {
 			// Schedule a job for the EDT
 			SwingUtilities.invokeLater(new Runnable() {
-				@Override
 				public void run() {
 					createAndShowGUI();
 				}
@@ -121,7 +123,6 @@ public class G2NPanel extends JPanel {
 		// File choosers
 		openChooser = new JFileChooser(System.getProperty("user.dir"));
 		openChooser.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				File file = openChooser.getSelectedFile();
 				if (file.canRead() && e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
@@ -130,7 +131,6 @@ public class G2NPanel extends JPanel {
 		});
 		saveChooser = new JFileChooser(System.getProperty("user.dir"));
 		saveChooser.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				File file = saveChooser.getSelectedFile();
 				if (file != null && e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION)) {
@@ -148,7 +148,6 @@ public class G2NPanel extends JPanel {
 		JButton openFileButton = new JButton("Input TFs");
 		openFileButton.setPreferredSize(new Dimension(300, 30));
 		openFileButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				openChooser.showOpenDialog(panel);
 			}
@@ -156,7 +155,6 @@ public class G2NPanel extends JPanel {
 		JButton saveFileButton = new JButton("Output Network");
 		saveFileButton.setPreferredSize(new Dimension(300, 30));
 		saveFileButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				saveChooser.showSaveDialog(panel);
 			}
@@ -168,7 +166,6 @@ public class G2NPanel extends JPanel {
 		
 		// File Drop
 		new FileDrop(openPath, new FileDrop.Listener() {
-			@Override
 			public void filesDropped(File[] files) {
 				if (files[0].canRead()) {
 					setupIO(files[0]);
@@ -185,7 +182,6 @@ public class G2NPanel extends JPanel {
 		
 		// File Drop
 		new FileDrop(inputTextArea, new FileDrop.Listener() {
-			@Override
 			public void filesDropped(File[] files) {
 				if (files[0].canRead()) {
 					setupIO(files[0]);
@@ -198,7 +194,6 @@ public class G2NPanel extends JPanel {
 		openButton = new JButton("View Results");
 		openButton.setEnabled(false);
 		openButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Desktop.getDesktop().open(new File(output));
@@ -212,7 +207,6 @@ public class G2NPanel extends JPanel {
 		viewButton = new JButton("View Network");
 		viewButton.setEnabled(false);
 		viewButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				NetworkViewer viewer = new NetworkViewer(networkSet);
 				viewer.pack();
@@ -223,7 +217,6 @@ public class G2NPanel extends JPanel {
 		// Start button
 		runButton = new JButton("Expand Network");
 		runButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				output = savePath.getText();
 				ArrayList<String> inputList = UIUtils.getTextAreaText(inputTextArea);
@@ -269,9 +262,12 @@ public class G2NPanel extends JPanel {
 		bindCheckBox = new JCheckBox("BIND", true);
 		biocartaCheckBox = new JCheckBox("Biocarta", true);
 		biogridCheckBox = new JCheckBox("BioGRID", true);
+		bioplexCheckBox = new JCheckBox("BioPlex", true);
 		dipCheckBox = new JCheckBox("DIP", true);
 		figeysCheckBox = new JCheckBox("figeys", false);
 		hprdCheckBox = new JCheckBox("HPRD", true);
+		humapCheckBox = new JCheckBox("huMAP", true);
+		irefCheckBox = new JCheckBox("iREF", true);
 		innatedbCheckBox = new JCheckBox("InnateDB", true);
 		intactCheckBox = new JCheckBox("IntAct", true);
 		keaCheckBox = new JCheckBox("KEA", false);
@@ -289,10 +285,13 @@ public class G2NPanel extends JPanel {
 		JPanel checkBoxes = new JPanel(new GridLayout(4, 0));
 		checkBoxes.add(bindCheckBox);
 		checkBoxes.add(biocartaCheckBox);
-		checkBoxes.add(biogridCheckBox);		
+		checkBoxes.add(biogridCheckBox);
+		checkBoxes.add(bioplexCheckBox);
 		checkBoxes.add(dipCheckBox);
 		checkBoxes.add(figeysCheckBox);
 		checkBoxes.add(hprdCheckBox);
+		checkBoxes.add(humapCheckBox);
+		checkBoxes.add(irefCheckBox);
 		checkBoxes.add(innatedbCheckBox);
 		checkBoxes.add(intactCheckBox);
 		checkBoxes.add(keaCheckBox);
@@ -311,7 +310,6 @@ public class G2NPanel extends JPanel {
 		
 		maxNodeLinksCheckBox = new JCheckBox("Allow a maximum of", false);
 		maxNodeLinksCheckBox.addItemListener(new ItemListener() {
-			@Override
 			public void itemStateChanged(ItemEvent e) {
 				maxNodeLinks.setEnabled(maxNodeLinksCheckBox.isSelected());
 			}
@@ -326,7 +324,6 @@ public class G2NPanel extends JPanel {
 		
 		maxInteractionsCheckBox = new JCheckBox("Allow a maximum of", false);
 		maxInteractionsCheckBox.addItemListener(new ItemListener() {
-			@Override
 			public void itemStateChanged(ItemEvent e) {
 				maxInteractions.setEnabled(maxInteractionsCheckBox.isSelected());
 			}
@@ -341,7 +338,6 @@ public class G2NPanel extends JPanel {
 		
 		minArticlesCheckBox = new JCheckBox("Allow a minimum of", false);
 		minArticlesCheckBox.addItemListener(new ItemListener() {
-			@Override
 			public void itemStateChanged(ItemEvent e) {
 				minArticles.setEnabled(minArticlesCheckBox.isSelected());
 			}
@@ -403,36 +399,39 @@ public class G2NPanel extends JPanel {
 		this.add(advancedSettingsBox);
 	}
 	
-	public void setSettings(SettingsChanger g2n2) {
+	public void setSettings(SettingsChanger changer) {
 		if (maxNodeLinks.isEnabled()) 
-			g2n2.setSetting(Genes2Networks.MAXIMUM_NUMBER_OF_EDGES, maxNodeLinks.getText());
+			changer.setSetting(Genes2Networks.MAXIMUM_NUMBER_OF_EDGES, maxNodeLinks.getText());
 		if (minArticles.isEnabled())
-			g2n2.setSetting(Genes2Networks.MINIMUM_NUMBER_OF_ARTICLES, minArticles.getText());
+			changer.setSetting(Genes2Networks.MINIMUM_NUMBER_OF_ARTICLES, minArticles.getText());
 		if (maxInteractions.isEnabled())
-			g2n2.setSetting(Genes2Networks.MAXIMUM_NUMBER_OF_INTERACTIONS, maxInteractions.getText());
-		g2n2.setSetting(Genes2Networks.PATH_LENGTH, Integer.toString(pathLengthSlider.getValue()));
-		g2n2.setSetting(Genes2Networks.ENABLE_BIND, Boolean.toString(bindCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_BIOCARTA, Boolean.toString(biocartaCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_BIOGRID, Boolean.toString(biogridCheckBox.isSelected()));		
-		g2n2.setSetting(Genes2Networks.ENABLE_DIP, Boolean.toString(dipCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_FIGEYS, Boolean.toString(figeysCheckBox.isSelected()));		
-		g2n2.setSetting(Genes2Networks.ENABLE_HPRD, Boolean.toString(hprdCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_INNATEDB, Boolean.toString(innatedbCheckBox.isSelected()));		
-		g2n2.setSetting(Genes2Networks.ENABLE_INTACT, Boolean.toString(intactCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_KEA, Boolean.toString(keaCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_KEGG, Boolean.toString(keggCheckBox.isSelected()));		
-		g2n2.setSetting(Genes2Networks.ENABLE_MINT, Boolean.toString(mintCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_MIPS, Boolean.toString(mipsCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_MURPHY, Boolean.toString(murphyCheckBox.isSelected()));		
-		g2n2.setSetting(Genes2Networks.ENABLE_PDZBASE, Boolean.toString(pdzbaseCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_PPID, Boolean.toString(ppidCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_PREDICTEDPPI, Boolean.toString(predictedPPICheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_SNAVI, Boolean.toString(snaviCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_STELZL, Boolean.toString(stelzlCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_VIDAL, Boolean.toString(vidalCheckBox.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_YED_OUTPUT, Boolean.toString(yedOutput.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_CYTOSCAPE_OUTPUT, Boolean.toString(cytoscapeOutput.isSelected()));
-		g2n2.setSetting(Genes2Networks.ENABLE_PAJEK_OUTPUT, Boolean.toString(pajekOutput.isSelected()));
+			changer.setSetting(Genes2Networks.MAXIMUM_NUMBER_OF_INTERACTIONS, maxInteractions.getText());
+		changer.setSetting(Genes2Networks.PATH_LENGTH, Integer.toString(pathLengthSlider.getValue()));
+		changer.setSetting(Genes2Networks.ENABLE_BIND, Boolean.toString(bindCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_BIOCARTA, Boolean.toString(biocartaCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_BIOGRID, Boolean.toString(biogridCheckBox.isSelected()));		
+		changer.setSetting(Genes2Networks.ENABLE_BIOPLEX, Boolean.toString(bioplexCheckBox.isSelected()));				
+		changer.setSetting(Genes2Networks.ENABLE_DIP, Boolean.toString(dipCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_FIGEYS, Boolean.toString(figeysCheckBox.isSelected()));		
+		changer.setSetting(Genes2Networks.ENABLE_HPRD, Boolean.toString(hprdCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_HUMAP, Boolean.toString(humapCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_IREF, Boolean.toString(irefCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_INNATEDB, Boolean.toString(innatedbCheckBox.isSelected()));		
+		changer.setSetting(Genes2Networks.ENABLE_INTACT, Boolean.toString(intactCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_KEA, Boolean.toString(keaCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_KEGG, Boolean.toString(keggCheckBox.isSelected()));		
+		changer.setSetting(Genes2Networks.ENABLE_MINT, Boolean.toString(mintCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_MIPS, Boolean.toString(mipsCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_MURPHY, Boolean.toString(murphyCheckBox.isSelected()));		
+		changer.setSetting(Genes2Networks.ENABLE_PDZBASE, Boolean.toString(pdzbaseCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_PPID, Boolean.toString(ppidCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_PREDICTEDPPI, Boolean.toString(predictedPPICheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_SNAVI, Boolean.toString(snaviCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_STELZL, Boolean.toString(stelzlCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_VIDAL, Boolean.toString(vidalCheckBox.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_YED_OUTPUT, Boolean.toString(yedOutput.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_CYTOSCAPE_OUTPUT, Boolean.toString(cytoscapeOutput.isSelected()));
+		changer.setSetting(Genes2Networks.ENABLE_PAJEK_OUTPUT, Boolean.toString(pajekOutput.isSelected()));
 	}
 	
 	public void setInputTextArea(Collection<String> list) {

@@ -24,10 +24,13 @@ public class Genes2Networks implements SettingsChanger {
 	// paths to sig files
 	private final static String BIND_LOC = "res/BIND.sig";
 	private final static String BIOCARTA_LOC = "res/Biocarta.sig";
-	private final static String BIOGRID_LOC = "res/BioGRID.sig";	
+	private final static String BIOGRID_LOC = "res/BioGRID.sig";
+	private final static String BIOPLEX_LOC = "res/BioPlex.sig";
 	private final static String DIP_LOC = "res/DIP.sig";
 	private final static String FIGEYS_LOC = "res/figeys.sig";
 	private final static String HPRD_LOC = "res/HPRD.sig";
+	private final static String HUMAP_LOC = "res/huMAP.sig";
+	private final static String IREF_LOC = "res/iREF.sig";
 	private final static String INNATEDB_LOC = "res/InnateDB.sig";	
 	private final static String INTACT_LOC = "res/IntAct.sig";
 	private final static String KEA_LOC = "res/KEA.sig";
@@ -55,95 +58,104 @@ public class Genes2Networks implements SettingsChanger {
 	private final Settings settings = new Settings() {
 		{
 			// Integer: the starting path length (number of edges between nodes) to do network expansion. [>=1]
-			set(Genes2Networks.PATH_LENGTH, 2);
+			set(PATH_LENGTH, 2);
 			// Integer: limit the maximum number of interactions that a particular protein has to exclude hub proteins. 0 means disabled. [>0]
-			set(Genes2Networks.MAXIMUM_NUMBER_OF_EDGES, 0);
+			set(MAXIMUM_NUMBER_OF_EDGES, 0);
 			// Integer: limit the maximum number of interactions that a particular article contributes to exclude high-thoroughput studies. 0 means disabled. [>0] 
-			set(Genes2Networks.MAXIMUM_NUMBER_OF_INTERACTIONS, 0);
+			set(MAXIMUM_NUMBER_OF_INTERACTIONS, 0);
 			// Integer: require a minimum number of articles to report a specific interaction to strengthen the validity of the interaction. 0 means disabled. [>0] 
-			set(Genes2Networks.MINIMUM_NUMBER_OF_ARTICLES, 0);
+			set(MINIMUM_NUMBER_OF_ARTICLES, 0);
 			// Boolean: enable BIND database. [true/false]
-			set(Genes2Networks.ENABLE_BIND, true);
+			set(ENABLE_BIND, true);
 			// Boolean: enable Biocarta database. [true/false]
-			set(Genes2Networks.ENABLE_BIOCARTA, true);
+			set(ENABLE_BIOCARTA, true);
 			// Boolean: enable BioGRID database. [true/false]
-			set(Genes2Networks.ENABLE_BIOGRID, true);
+			set(ENABLE_BIOGRID, true);
+			// Boolean: enable BioPlex database. [true/false]
+			set(ENABLE_BIOPLEX, true);			
 			// Boolean: enable DIP database. [true/false]
-			set(Genes2Networks.ENABLE_DIP, true);
+			set(ENABLE_DIP, true);
 			// Boolean: enable figeys database. [true/false]
-			set(Genes2Networks.ENABLE_FIGEYS, false);
+			set(ENABLE_FIGEYS, false);
 			// Boolean: enable HPRD database. [true/false]
-			set(Genes2Networks.ENABLE_HPRD, true);
+			set(ENABLE_HPRD, true);
+			// Boolean: enable huMAP database. [true/false]
+			set(ENABLE_HUMAP, true);
+			// Boolean: enable iREF database. [true/false]			
+			set(ENABLE_IREF, true);
 			// Boolean: enable InnateDB database. [true/false]
-			set(Genes2Networks.ENABLE_INNATEDB, true);
+			set(ENABLE_INNATEDB, true);
 			// Boolean: enable IntAct database. [true/false]
-			set(Genes2Networks.ENABLE_INTACT, true);
+			set(ENABLE_INTACT, true);
 			// Boolean: enable KEA database. [true/false]
-			set(Genes2Networks.ENABLE_KEA, false);
+			set(ENABLE_KEA, false);
 			// Boolean: enable KEGG database. [true/false]
-			set(Genes2Networks.ENABLE_KEGG, true);
+			set(ENABLE_KEGG, true);
 			// Boolean: enable MINT database. [true/false]
-			set(Genes2Networks.ENABLE_MINT, true);
+			set(ENABLE_MINT, true);
 			// Boolean: enable MIPS database. [true/false]
-			set(Genes2Networks.ENABLE_MIPS, true);
+			set(ENABLE_MIPS, true);
 			// Boolean: enable murphy database. [true/false]
-			set(Genes2Networks.ENABLE_MURPHY, false);
+			set(ENABLE_MURPHY, false);
 			// Boolean: enable pdzbase database. [true/false]
-			set(Genes2Networks.ENABLE_PDZBASE, true);
+			set(ENABLE_PDZBASE, true);
 			// Boolean: enable ppid database. [true/false]
-			set(Genes2Networks.ENABLE_PPID, true);
+			set(ENABLE_PPID, true);
 			// Boolean: enable top 3000 of predicted PPI database. [true/false]
-			set(Genes2Networks.ENABLE_PREDICTEDPPI, false);
+			set(ENABLE_PREDICTEDPPI, false);
 			// Boolean: enable SNAVI database. [true/false]
-			set(Genes2Networks.ENABLE_SNAVI, true);
+			set(ENABLE_SNAVI, true);
 			// Boolean: enable Stelzl database. [true/false]
-			set(Genes2Networks.ENABLE_STELZL, false);
+			set(ENABLE_STELZL, false);
 			// Boolean: enable vidal database. [true/false]
-			set(Genes2Networks.ENABLE_VIDAL, false);
+			set(ENABLE_VIDAL, false);
 			// Boolean: output a yEd graphml file for network visualization of the expansion. [true/false]
-			set(Genes2Networks.ENABLE_YED_OUTPUT, true);
+			set(ENABLE_YED_OUTPUT, true);
 			// Boolean: output a Cytoscape XGMML file for network visualization of the expansion. [true/false]
-			set(Genes2Networks.ENABLE_CYTOSCAPE_OUTPUT, false);
+			set(ENABLE_CYTOSCAPE_OUTPUT, false);
 			// Boolean: output a Pajek NET file for network visualization of the expansion. [true/false]
-			set(Genes2Networks.ENABLE_PAJEK_OUTPUT, false);
+			set(ENABLE_PAJEK_OUTPUT, false);
 			// String: web color of the seed genes in the Cytoscape and yEd network expansion outputs. [#000000 - #FFFFFF]
-			set(Genes2Networks.SEED_NODE_COLOR, "#FF0000");
+			set(SEED_NODE_COLOR, "#FF0000");
 			// String: web color of the expanded protein network in the Cytoscape and yEd network expansions outputs. [#000000 - #FFFFFF]
-			set(Genes2Networks.EXPANDED_NODE_COLOR, "#00FF00");
+			set(EXPANDED_NODE_COLOR, "#00FF00");
 		}
 	};
 	
 	// constants for settings
-	public final static String PATH_LENGTH = "path length to search";
-	public final static String MAXIMUM_NUMBER_OF_EDGES = "max number of interactions per protein";
-	public final static String MAXIMUM_NUMBER_OF_INTERACTIONS = "max number of interactions per article";
-	public final static String MINIMUM_NUMBER_OF_ARTICLES = "min number of articles supporting interaction";
+	public final static String PATH_LENGTH = "path_length";
+	public final static String MAXIMUM_NUMBER_OF_EDGES = "max_number_of_interactions_per_protein";
+	public final static String MAXIMUM_NUMBER_OF_INTERACTIONS = "max_number_of_interactions_per_article";
+	public final static String MINIMUM_NUMBER_OF_ARTICLES = "min_number_of_articles_supporting_interaction";
 	
-	public final static String ENABLE_BIND = "use BIND database";
-	public final static String ENABLE_BIOCARTA = "use Biocarta database";
-	public final static String ENABLE_BIOGRID = "use BioGRID database";
-	public final static String ENABLE_DIP = "use DIP databse";
-	public final static String ENABLE_FIGEYS = "use figeys database";	
-	public final static String ENABLE_HPRD = "use HPRD database";
-	public final static String ENABLE_INNATEDB = "use InnateDB database";	
-	public final static String ENABLE_INTACT = "use IntAct database";
-	public final static String ENABLE_KEA = "use KEA database";
-	public final static String ENABLE_KEGG = "use KEGG database";
-	public final static String ENABLE_MINT = "use MINT database";
-	public final static String ENABLE_MIPS = "use MIPS database";
-	public final static String ENABLE_MURPHY = "use murphy database";
-	public final static String ENABLE_PDZBASE = "use pdzbase database";
-	public final static String ENABLE_PPID = "use ppid database";
-	public final static String ENABLE_PREDICTEDPPI = "use predicted PPI database";
-	public final static String ENABLE_SNAVI = "use SNAVI database";
-	public final static String ENABLE_STELZL = "use Stelzl database";
-	public final static String ENABLE_VIDAL = "use vidal database";
+	public final static String ENABLE_BIND = "enable_BIND";
+	public final static String ENABLE_BIOCARTA = "enable_Biocarta";
+	public final static String ENABLE_BIOGRID = "enable_BioGRID";
+	public final static String ENABLE_BIOPLEX = "enable_BioPlex";	
+	public final static String ENABLE_DIP = "enable_DIP";
+	public final static String ENABLE_FIGEYS = "enable_figeys";	
+	public final static String ENABLE_HPRD = "enable_HPRD";
+	public final static String ENABLE_HUMAP = "enable_huMAP";
+	public final static String ENABLE_IREF = "enable_iREF";
+	public final static String ENABLE_INNATEDB = "enable_InnateDB";	
+	public final static String ENABLE_INTACT = "enable_IntAct";
+	public final static String ENABLE_KEA = "enable_KEA";
+	public final static String ENABLE_KEGG = "enable_KEGG";
+	public final static String ENABLE_MINT = "enable_MINT";
+	public final static String ENABLE_MIPS = "enable_MIPS";
+	public final static String ENABLE_MURPHY = "enable_murphy";
+	public final static String ENABLE_PDZBASE = "enable_pdzbase";
+	public final static String ENABLE_PPID = "enable_ppid";
+	public final static String ENABLE_PREDICTEDPPI = "enable_predictedPPI";
+	public final static String ENABLE_SNAVI = "enable_SNAVI";
+	public final static String ENABLE_STELZL = "enable_Stelzl";
+	public final static String ENABLE_VIDAL = "enable_vidal";
 	
-	public final static String ENABLE_YED_OUTPUT = "output G2N in yED";
-	public final static String ENABLE_CYTOSCAPE_OUTPUT = "output G2N in Cytoscape";
-	public final static String ENABLE_PAJEK_OUTPUT = "output G2N in Pajek";
-	public final static String SEED_NODE_COLOR = "color of seed nodes";
-	public final static String EXPANDED_NODE_COLOR = "color of intermediate nodes";
+	public final static String ENABLE_YED_OUTPUT = "enable_expansion_yEd_output";
+	public final static String ENABLE_CYTOSCAPE_OUTPUT = "enable_expansion_cytoscape_output";
+	public final static String ENABLE_PAJEK_OUTPUT = "enable_expansion_Pajek_output";
+	public final static String SEED_NODE_COLOR = "seed_node_color";
+	public final static String EXPANDED_NODE_COLOR = "expanded_node_color";
 		
 	// Global temporary variables
 	private HashSet<NetworkNode> visited;
@@ -177,7 +189,6 @@ public class Genes2Networks implements SettingsChanger {
 		settings.loadSettings(externalSettings);
 	}
 	
-	@Override
 	public void setSetting(String key, String value) {
 		settings.set(key, value);
 	}
@@ -217,12 +228,18 @@ public class Genes2Networks implements SettingsChanger {
 				sigList.add(BIOCARTA_LOC);
 			if (settings.getBoolean(ENABLE_BIOGRID))
 				sigList.add(BIOGRID_LOC);
+			if (settings.getBoolean(ENABLE_BIOPLEX))
+				sigList.add(BIOPLEX_LOC);			
 			if (settings.getBoolean(ENABLE_DIP))
 				sigList.add(DIP_LOC);
 			if (settings.getBoolean(ENABLE_FIGEYS))
 				sigList.add(FIGEYS_LOC);
 			if (settings.getBoolean(ENABLE_HPRD))
 				sigList.add(HPRD_LOC);
+			if (settings.getBoolean(ENABLE_HUMAP))
+				sigList.add(HUMAP_LOC);
+			if (settings.getBoolean(ENABLE_IREF))
+				sigList.add(IREF_LOC);			
 			if (settings.getBoolean(ENABLE_INNATEDB))
 				sigList.add(INNATEDB_LOC);
 			if (settings.getBoolean(ENABLE_INTACT))
@@ -347,7 +364,7 @@ public class Genes2Networks implements SettingsChanger {
 				target.addNeighbor(source);
 				
 				// Add network edge
-				Interaction interaction = new Interaction(source, target, ss[10], ss[11], ss[12]);
+				Interaction interaction = new Interaction(source, target, ss[10], ss[11], ss[12]);			
 				
 				// Generate common pair key
 				String key = getEdgeKey(source, target);

@@ -71,11 +71,9 @@ public class NetworkViewer extends JFrame {
 			this.graphComponent = graphComponent;
 		}
 		
-		@Override
 		public void keyTyped(KeyEvent e) {
 		}
 
-		@Override
 		public void keyPressed(KeyEvent e) {
 		    switch (e.getKeyCode()) {
 	    	case KeyEvent.VK_EQUALS:
@@ -87,7 +85,6 @@ public class NetworkViewer extends JFrame {
 		    }
 		}
 
-		@Override
 		public void keyReleased(KeyEvent e) {
 		}
 	}
@@ -100,7 +97,6 @@ public class NetworkViewer extends JFrame {
 			this.graphComponent = graphComponent;
 		}
 		
-		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			int notches = e.getWheelRotation();
 			if (notches < 0) {
