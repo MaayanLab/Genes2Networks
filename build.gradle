@@ -1,0 +1,9 @@
+group = 'edu.mssm.pharm.maayanlab.Genes2Networks'
+description = 'G2N'
+dependencies {
+  compile project(':common:common-core')
+  compile project(':common:common-swing')
+  compile project(':common:common-graph')
+    compile group: 'org.tinyjee.jgraphx', name: 'jgraphx', version:'1.10.1.3'
+    testCompile group: 'junit', name: 'junit', version:'3.8.1'
+}
