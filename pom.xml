@@ -93,7 +93,7 @@
 							</descriptorRefs>
 							<archive>
 								<manifest>
-									<mainClass>edu.mssm.pharm.maayanlab.LaunchPad</mainClass>
+									<mainClass>edu.mssm.pharm.maayanlab.common.swing.LaunchPad</mainClass>
 								</manifest>
 							</archive>
 						</configuration>
