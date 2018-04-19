@@ -94,11 +94,11 @@ public class Genes2Networks implements SettingsChanger {
 			// Boolean: enable MINT database. [true/false]
 			set(ENABLE_MINT, true);
 			// Boolean: enable MIPS database. [true/false]
-			set(ENABLE_MIPS, true);
+			set(ENABLE_MIPS, false);
 			// Boolean: enable murphy database. [true/false]
 			set(ENABLE_MURPHY, false);
 			// Boolean: enable pdzbase database. [true/false]
-			set(ENABLE_PDZBASE, true);
+			set(ENABLE_PDZBASE, false);
 			// Boolean: enable ppid database. [true/false]
 			set(ENABLE_PPID, true);
 			// Boolean: enable top 3000 of predicted PPI database. [true/false]
