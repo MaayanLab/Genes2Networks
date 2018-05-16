@@ -1,9 +1,61 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'de.undercouch:gradle-download-task:3.4.3'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'de.undercouch.download'
+
 group = 'edu.mssm.pharm.maayanlab.Genes2Networks'
 description = 'G2N'
-dependencies {
-  compile project(':common:common-core')
-  compile project(':common:common-swing')
-  compile project(':common:common-graph')
-    compile group: 'org.tinyjee.jgraphx', name: 'jgraphx', version:'1.10.1.3'
-    testCompile group: 'junit', name: 'junit', version:'3.8.1'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+  mavenCentral()
+  maven { url "https://jitpack.io" }
 }
+
+dependencies {
+  compile 'com.github.MaayanLab.common:common-core:master-SNAPSHOT'
+  compile 'com.github.MaayanLab.common:common-swing:master-SNAPSHOT'
+  compile 'com.github.MaayanLab.common:common-graph:master-SNAPSHOT'
+  compile group: 'org.tinyjee.jgraphx', name: 'jgraphx', version:'1.10.1.3'
+  testCompile group: 'junit', name: 'junit', version:'3.8.1'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+  from "${buildDir}/resources/main"
+}
+
+artifacts {
+  archives sourcesJar
+}
+
+task downloadResources(type: Download) {
+  src 'http://amp.pharm.mssm.edu/lincs-playground/index.php/s/g6VmKPOQVgcdyKc/download'
+  dest new File(buildDir, 'G2N.zip')
+  overwrite false
+}
+
+task downloadAndUnzipResources(type: Copy) {
+  from zipTree(downloadResources.dest)
+  into "${buildDir}/resources"
+  eachFile { f ->
+    f.path = f.path.replaceFirst('G2N/', '')
+  }
+  includeEmptyDirs false
+}
+
+downloadAndUnzipResources.dependsOn downloadResources
+sourcesJar.dependsOn downloadAndUnzipResources
+test.dependsOn downloadAndUnzipResources
+build.dependsOn downloadAndUnzipResources
