@@ -33,7 +33,6 @@ dependencies {
 task sourcesJar(type: Jar, dependsOn: classes) {
   classifier = 'sources'
   from sourceSets.main.allSource
-  from "${buildDir}/resources/main"
 }
 
 artifacts {
@@ -48,7 +47,7 @@ task downloadResources(type: Download) {
 
 task downloadAndUnzipResources(type: Copy) {
   from zipTree(downloadResources.dest)
-  into "${buildDir}/resources"
+  into 'src/'
   eachFile { f ->
     f.path = f.path.replaceFirst('G2N/', '')
   }
@@ -56,6 +55,4 @@ task downloadAndUnzipResources(type: Copy) {
 }
 
 downloadAndUnzipResources.dependsOn downloadResources
-sourcesJar.dependsOn downloadAndUnzipResources
-test.dependsOn downloadAndUnzipResources
-build.dependsOn downloadAndUnzipResources
+processResources.dependsOn downloadAndUnzipResources
